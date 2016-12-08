@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<div class="row">
+<div class="col-md-6 col-md-offset-3">
+<div class="input-group">
+  <input type="text" name="searchstring" class="form-control" placeholder="Search for...">
+  <span class="input-group-btn">
+    <button class="btn btn-default" type="button" id="query">Search</button>
+  </span>
+</div>
+<br><p class="text-muted"><em>You can search for any aspect of the article (including a DOI). Right now the search only returns the top 20 results -- if your article is not in the results, please refine your search.</em></p>
+</div>
+</div>
+<br>
+
+<div class="row" id="select">
+  <p>Select an article and then click the button at the bottom to confirm.</p>
+  <div class="listgroup" id="acontain"></div><br>
+  <button class="btn btn-default btn-block" type="button" id="selectarticle">Select</button>
+</div>
+<br>
+
+<div id="add">
+  <div class="articlestats"></div><br>
+
+  <div class="input-group input-group-sm">
+    <span class="input-group-addon">Category</span>
+    <select class="form-control" id="category">
+      <option disabled selected value> Choose a category </option>
+      {% for c in categories.keys()|sort %}
+      <option value="{{c}}">{{ c.replace("+"," ") }}</option>
+      {% endfor %}
+    </select>
+  </div><br>
+
+  <!-- <div class="input-group input-group-sm">
+    <span class="input-group-addon">Subcategory (optional)</span>
+    <select class="form-control" id="subcategory">
+      <option disabled selected value> Choose a subcategory </option>
+      <option>1</option>
+      <option>2</option>
+      <option>3</option>
+      <option>4</option>
+      <option>5</option>
+    </select>
+  </div><br> -->
+
+  <div class="input-group input-group-sm">
+    <span class="input-group-addon">Keywords</span>
+    <input type="text" name="keywords" class="form-control" placeholder="Tags, separated by commas">
+  </div><br>
+
+  <button class="btn btn-default btn-block" type="button" id="addarticle">Submit</button>
+</div>
+
+{% endblock %}

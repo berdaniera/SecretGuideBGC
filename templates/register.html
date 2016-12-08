@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block body %}
+  <form action="" method=post>
+    <h3>Sign up</h3>
+    <div class="form-group">
+      <input type="text" id="username" name="username" class="form-control"
+        placeholder="Enter Username" value="{{ request.form.username }}"
+        required>
+    </div>
+    <div class="form-group">
+      <input type="password" id="password" name="password" class="form-control"
+        placeholder="Enter Password" value="{{ request.form.password }}"
+        required>
+    </div>
+    <div class="form-group">
+      <input type="email" id="email" name="email" class="form-control"
+        placeholder="Enter Email" value="{{ request.form.username }}"
+        required>
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-default btn-block">Register</button>
+    </div>
+  </form>
+{% endblock %}

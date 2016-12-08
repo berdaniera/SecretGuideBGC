@@ -1,0 +1,131 @@
+<html>
+<head>
+<style>
+.art {
+  color: #666666;
+  margin: 0 0 4 0px;
+}
+.arrows {
+  text-align: center;
+  vertical-align:middle;
+}
+.keywordtag {
+  background-color: #eeeeee;
+  color: #666666;
+  text-decoration: none;
+  padding: 4px;
+  margin: 0 4 0 0px;
+  font-size: 9px;
+  font-style: italic;
+}
+.arrows button {
+  text-decoration: none;
+  color: #999999;
+  outline: none;
+}
+select.btn-mini {
+  border:0px solid #cccccc;
+  height: auto;
+  line-height: 10px;
+  font-size: 12px;
+}
+#select { display: none; }
+#add { display: none; }
+#categories { margin-bottom: 12px; }
+#categories a { text-decoration: none; }
+</style>
+<script src="{{ url_for('static', filename='js/jquery.js')}}"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://use.fontawesome.com/7cd26e4f50.js"></script>
+<script src="{{ url_for('static', filename='js/heap.js')}}"></script>
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-static-top">
+  <div class="container">
+    <div class="navbar-header">
+      <a href="../" class="navbar-brand">The Secret Guide to BGC</a>
+      <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="navbar-collapse collapse" id="navbar-main">
+      {% if g.user.is_authenticated %}
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          <form class='form-inline' action="search" method="get" style="margin-top:10px;"><div class="input-group input-group-sm">
+              <input class="form-control" name="k" type="text" placeholder="Keyword search...">
+              <div class="input-group-btn"><button type="submit" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i></button></div>
+          </div></form>
+        </li>
+        <li><a href="/add">Add article</a></li>
+        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+      </ul>
+      {% endif %}
+      {% if not g.user.is_authenticated %}
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="{{ url_for('login') }}">Login</a></li>
+      </ul>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<div class="container pagelinks">
+  <form class='form-inline' action='' id="sorts" method="GET" style="margin-top:10px;">
+    {% if keyw is not none %}
+    <input type="hidden" name="k" value="{{keyw}}">
+    {% endif %}
+    <span class="pull-right"><small>
+        &nbsp; &nbsp; Sort:
+        <select class="form-control btn-mini" id="sorting" name="sort">
+          {% if sortdisp=='hot' %}
+          <option value='hot' selected>Hot</option>
+          <option value='best'>Best</option>
+          {%else%}
+          <option value='hot'>Hot</option>
+          <option value='best' selected>Best</option>
+          {%endif%}
+        </select></small>
+    </span>
+  </form>
+
+  {% for l,c in categories.iteritems() %}
+  / <a href="/c/{{ l }}">{{ c }}</a>
+  {% endfor %}
+</div>
+
+<div class="container">
+
+  <hr>
+
+  <div id="alerts">
+  {% with messages = get_flashed_messages(with_categories=True) %}
+  {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-dismissible {{category}}">
+      <button class="close" data-dismiss="alert" aria-label="close">&times;</button>
+      {{ message }}
+    </div>
+    {% endfor %}
+  {% endif %}
+  {% endwith %}
+  </div>
+
+  {% block body %}{% endblock %}
+
+  <hr>
+
+</div>
+
+<footer>
+  <div class="container" style="text-align:right">
+    © 2016<br>
+  </div>
+</footer>
+
+</body>
+</html>
